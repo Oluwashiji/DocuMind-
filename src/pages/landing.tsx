@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { ArrowDown, ArrowRight, Check, ChevronDown, CirclePlay, Database, FileCheck2, FileSpreadsheet, Menu, MoveRight, ShieldCheck, UploadCloud, X, Zap } from "lucide-react";
-import { Brand, SmallArrow, StatusPill, Toast } from "./_shared/Brand";
-import "./_group.css";
+import { useNavigate } from "react-router-dom";
+import { ArrowDown, ArrowRight, Check, CirclePlay, Database, FileCheck2, MoveRight, ShieldCheck, Menu, X, Zap } from "lucide-react";
+import { Brand, SmallArrow, StatusPill, Toast } from "../components/shared/Brand";
+import "../components/shared/dm.css";
 
 const features = [
   { icon: Zap, kicker: "01 / Instant", title: "From document to usable data.", body: "Drop in the messiest invoice or receipt. DocuMind recognizes structure, context, and intent in seconds.", stat: "8.4 sec", label: "average extraction" },
@@ -10,10 +11,12 @@ const features = [
 ];
 
 export function Landing() {
+  const navigate = useNavigate();
   const [mobile, setMobile] = useState(false);
   const [annual, setAnnual] = useState(true);
   const [toast, setToast] = useState("");
   const notify = (msg: string) => setToast(msg);
+  const goToAuth = () => navigate("/auth");
   return (
     <main className="dm-root dm-noise">
       <section className="relative min-h-[760px] overflow-hidden">
@@ -26,9 +29,9 @@ export function Landing() {
             <button onClick={() => notify("Demo request received — we will be in touch.")} className="dm-btn dm-btn-ghost !px-4 !py-2.5">Book a demo <SmallArrow /></button>
           </nav>
           <div className="flex items-center gap-3">
-            <button onClick={() => notify("Sign in is ready in the auth preview.")} className="hidden text-[12px] font-semibold text-[#95a69a] transition hover:text-[#e8f0e5] sm:block">Sign in</button>
+            <button onClick={goToAuth} className="hidden text-[12px] font-semibold text-[#95a69a] transition hover:text-[#e8f0e5] sm:block">Sign in</button>
             <button onClick={() => setMobile(!mobile)} className="rounded-lg border border-[#c7dcc9]/15 p-2 text-[#e8f0e5] md:hidden">{mobile ? <X size={18} /> : <Menu size={18} />}</button>
-            <button onClick={() => notify("Your free workspace is waiting in the auth preview.")} className="dm-btn dm-btn-primary !hidden !px-4 !py-2.5 sm:!inline-flex">Start free <SmallArrow /></button>
+            <button onClick={goToAuth} className="dm-btn dm-btn-primary !hidden !px-4 !py-2.5 sm:!inline-flex">Start free <SmallArrow /></button>
           </div>
         </header>
         <div className="relative z-10 mx-auto grid max-w-[1180px] gap-16 px-6 pb-24 pt-20 lg:grid-cols-[1.02fr_.98fr] lg:items-center lg:px-8 lg:pt-28">
@@ -36,7 +39,7 @@ export function Landing() {
             <StatusPill>AI document intelligence</StatusPill>
             <h1 className="dm-display mt-7 max-w-[730px] text-[clamp(3.3rem,7vw,6.6rem)] font-medium leading-[.92] tracking-[-.075em] text-[#e8f0e5]">The quiet power<br />behind <em className="font-normal text-[#9df4b1]">clean data.</em></h1>
             <p className="mt-7 max-w-[520px] text-[16px] leading-7 text-[#95a69a]">DocuMind turns invoices, receipts, and documents into structured editable data instantly — so operations and finance teams can stop entering, and start moving.</p>
-            <div className="mt-9 flex flex-wrap items-center gap-3"><button onClick={() => notify("Your workspace is being prepared.")} className="dm-btn dm-btn-primary">Start extracting for free <ArrowRight size={16} /></button><button onClick={() => notify("Playing a 90-second product tour.")} className="dm-btn dm-btn-ghost"><CirclePlay size={15} /> See it in action</button></div>
+            <div className="mt-9 flex flex-wrap items-center gap-3"><button onClick={goToAuth} className="dm-btn dm-btn-primary">Start extracting for free <ArrowRight size={16} /></button><button onClick={() => notify("Playing a 90-second product tour.")} className="dm-btn dm-btn-ghost"><CirclePlay size={15} /> See it in action</button></div>
             <div className="mt-9 flex items-center gap-4 text-[11px] text-[#617167]"><div className="flex -space-x-2">{["AM","JR","KS","NL"].map((i) => <span key={i} className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#080c09] bg-[#284b36] text-[9px] font-bold text-[#baf6c5]">{i}</span>)}</div><span>Trusted by 2,400+ finance teams</span><span className="h-1 w-1 rounded-full bg-[#d9b66d]" /><span>No credit card required</span></div>
           </div>
           <div className="dm-reveal dm-delay-2 relative">
@@ -66,7 +69,7 @@ export function Landing() {
 
       <section id="pricing" className="mx-auto max-w-[1180px] px-6 py-28 lg:px-8"><div className="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><span className="dm-mono text-[10px] uppercase tracking-[.22em] text-[#d9b66d]">Simple by design</span><h2 className="dm-display mt-5 text-4xl font-medium tracking-[-.06em] md:text-5xl">Start small. Scale cleanly.</h2></div><div className="flex items-center gap-1 rounded-full border border-[#c7dcc9]/15 bg-[#101812] p-1 text-[11px]"><button onClick={()=>setAnnual(false)} className={`rounded-full px-4 py-2 ${!annual?"bg-[#9df4b1] text-[#07110a]":"text-[#95a69a]"}`}>Monthly</button><button onClick={()=>setAnnual(true)} className={`rounded-full px-4 py-2 ${annual?"bg-[#9df4b1] text-[#07110a]":"text-[#95a69a]"}`}>Yearly <span className="ml-1 text-[#d9b66d]">−20%</span></button></div></div><div className="mt-14 grid gap-4 md:grid-cols-3"><Price name="Essentials" price={annual ? "$39" : "$49"} detail="For lean teams finding their rhythm." items={["500 pages / month","Core extraction fields","CSV & JSON export"]} /><Price name="Operations" price={annual ? "$129" : "$159"} detail="For teams with a real document flow." items={["2,500 pages / month","Custom field schemas","QuickBooks & NetSuite","Team review workspace"]} featured /><Price name="Scale" price="Let's talk" detail="For complex operations at volume." items={["Unlimited workspaces","Priority processing","SSO & audit controls","Dedicated success partner"]} /></div></section>
 
-      <section className="mx-auto max-w-[1180px] px-6 pb-28 lg:px-8"><div className="dm-glass relative overflow-hidden rounded-[26px] px-7 py-14 text-center md:px-20"><div className="pointer-events-none absolute left-1/2 top-0 h-56 w-96 -translate-x-1/2 bg-[#39ca72]/10 blur-[90px]" /><span className="relative dm-mono text-[10px] uppercase tracking-[.2em] text-[#9df4b1]">Your next clear hour</span><h2 className="dm-display relative mx-auto mt-5 max-w-[650px] text-4xl font-medium leading-[1] tracking-[-.06em] md:text-6xl">Give your team their time back.</h2><p className="relative mx-auto mt-5 max-w-[430px] text-[13px] leading-6 text-[#95a69a]">A calmer way to process the documents your business runs on.</p><button onClick={()=>notify("Your free workspace is being prepared.")} className="dm-btn dm-btn-primary relative mt-8">Start for free <ArrowRight size={16}/></button></div></section>
+      <section className="mx-auto max-w-[1180px] px-6 pb-28 lg:px-8"><div className="dm-glass relative overflow-hidden rounded-[26px] px-7 py-14 text-center md:px-20"><div className="pointer-events-none absolute left-1/2 top-0 h-56 w-96 -translate-x-1/2 bg-[#39ca72]/10 blur-[90px]" /><span className="relative dm-mono text-[10px] uppercase tracking-[.2em] text-[#9df4b1]">Your next clear hour</span><h2 className="dm-display relative mx-auto mt-5 max-w-[650px] text-4xl font-medium leading-[1] tracking-[-.06em] md:text-6xl">Give your team their time back.</h2><p className="relative mx-auto mt-5 max-w-[430px] text-[13px] leading-6 text-[#95a69a]">A calmer way to process the documents your business runs on.</p><button onClick={goToAuth} className="dm-btn dm-btn-primary relative mt-8">Start for free <ArrowRight size={16}/></button></div></section>
       <footer className="border-t border-[#c7dcc9]/10"><div className="mx-auto flex max-w-[1180px] flex-col justify-between gap-8 px-6 py-10 md:flex-row md:items-center lg:px-8"><div><Brand/><p className="mt-3 text-[11px] text-[#617167]">Structured clarity for the work behind the work.</p></div><div className="flex gap-6 text-[11px] text-[#617167]"><a href="#product" className="hover:text-[#e8f0e5]">Product</a><a href="#pricing" className="hover:text-[#e8f0e5]">Pricing</a><button onClick={()=>notify("Privacy center opened.")} className="hover:text-[#e8f0e5]">Privacy</button><button onClick={()=>notify("Contact form opened.")} className="hover:text-[#e8f0e5]">Contact</button></div><span className="dm-mono text-[10px] text-[#617167]">© 2024 DocuMind</span></div></footer>
       {toast && <Toast message={toast} onClose={()=>setToast("")}/>}
     </main>
